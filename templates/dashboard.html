@@ -1,0 +1,644 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — EduCore LMS</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+</head>
+<body>
+
+<div class="app-root">
+
+  <!-- ─────────────────────────────────────────
+       SIDEBAR
+  ───────────────────────────────────────── -->
+  <aside class="sidebar" id="sidebar">
+
+    <div class="sidebar__header">
+      <div class="sidebar__logo-icon">E</div>
+      <div>
+        <div class="sidebar__logo-name">EduCore</div>
+        <span class="sidebar__logo-badge">LMS Platform</span>
+      </div>
+    </div>
+
+    <nav class="sidebar__nav">
+
+      <!-- Main -->
+      <div class="nav-section">
+        <p class="nav-section__label">Main</p>
+
+        <a href="{% url 'dashboard_view' %}" class="nav-item active">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+          </svg>
+          Dashboard
+        </a>
+
+        <a href="#" class="nav-item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+          </svg>
+          Courses
+          <span class="nav-badge">{{ total_courses|default:"0" }}</span>
+        </a>
+
+        <a href="#" class="nav-item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+          </svg>
+          Exams
+          <span class="nav-badge">{{ total_exams|default:"0" }}</span>
+        </a>
+
+        <a href="#" class="nav-item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+          </svg>
+          Results
+        </a>
+
+        <a href="#" class="nav-item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+          Students
+          <span class="nav-badge">{{ total_students|default:"0" }}</span>
+        </a>
+      </div>
+
+      <!-- Management -->
+      <div class="nav-section">
+        <p class="nav-section__label">Management</p>
+
+        <a href="#" class="nav-item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+          </svg>
+          Schedule
+        </a>
+
+        <a href="#" class="nav-item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+          Reports
+        </a>
+
+        <a href="#" class="nav-item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+          Settings
+        </a>
+      </div>
+
+    </nav>
+
+    <div class="sidebar__footer">
+      <div class="sidebar__user">
+        <div class="user-avatar">
+          {{ request.user.first_name|first|upper }}{{ request.user.last_name|first|upper|default:request.user.username|first|upper }}
+        </div>
+        <div class="sidebar__user-info" style="flex: 1; overflow: hidden;">
+          <div class="sidebar__user-name">{{ request.user.get_full_name|default:request.user.username }}</div>
+          <div class="sidebar__user-role">{% if request.user.is_staff %}Administrator{% else %}Instructor{% endif %}</div>
+        </div>
+        <div class="sidebar__user-action">
+          <a href="{% url 'logout_view' %}" title="Logout" style="color: var(--text-muted); transition: color 0.2s;">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="18" height="18">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- Mobile overlay -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+  <!-- ─────────────────────────────────────────
+       MAIN AREA
+  ───────────────────────────────────────── -->
+  <div class="main-area">
+
+    <!-- ── Top Navbar ── -->
+    <header class="topbar">
+      <button class="topbar__hamburger" onclick="toggleSidebar()" aria-label="Menu">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+
+      <div class="topbar__breadcrumb">
+        <span>EduCore</span>
+        <span class="sep">/</span>
+        <span>Dashboard</span>
+      </div>
+
+      <div class="topbar__search">
+        <span class="topbar__search-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+        </span>
+        <input type="text" placeholder="Search courses, exams…" />
+      </div>
+
+      <div class="topbar__actions">
+        <!-- Notifications -->
+        <button class="topbar__btn" aria-label="Notifications">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+          </svg>
+          <span class="topbar__notif-dot"></span>
+        </button>
+
+        <!-- Messages -->
+        <button class="topbar__btn" aria-label="Messages">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+          </svg>
+        </button>
+
+        <div class="topbar__divider"></div>
+
+        <!-- User pill -->
+        <div class="topbar__user">
+          <div class="user-avatar" style="width:32px;height:32px;font-size:12px;">
+            {{ request.user.username|first|upper }}
+          </div>
+          <div class="topbar__user-info">
+            <span class="topbar__user-name">{{ request.user.get_full_name|default:request.user.username }}</span>
+            <span class="topbar__user-role">{% if request.user.is_staff %}Admin{% else %}Instructor{% endif %}</span>
+          </div>
+          <span class="topbar__user-chevron">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ── Main Content ── -->
+    <main class="content">
+
+      <!-- Header -->
+      <div class="content__header">
+        <div>
+          <h1 class="content__title">Good morning, {{ request.user.first_name|default:"Admin" }} 👋</h1>
+          <p class="content__subtitle">Here's what's happening in your LMS today.</p>
+        </div>
+        <div class="content__actions">
+          <a href="#" class="btn btn-ghost btn-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="15" height="15">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+            </svg>
+            New Course
+          </a>
+          <a href="#" class="btn btn-primary btn-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="15" height="15">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+            </svg>
+            New Exam
+          </a>
+        </div>
+      </div>
+
+      <!-- ── Stat Cards ── -->
+      <div class="stats-grid">
+
+        <div class="stat-card stat-card--amber">
+          <div class="stat-card__top">
+            <div class="stat-card__icon stat-card__icon--amber">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+              </svg>
+            </div>
+            <span class="stat-card__change stat-card__change--up">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
+              +12%
+            </span>
+          </div>
+          <div class="stat-card__value">{{ total_students|default:"1,284" }}</div>
+          <div class="stat-card__label">Total Students</div>
+          <div class="stat-card__sub">↑ 138 new this month</div>
+        </div>
+
+        <div class="stat-card stat-card--emerald">
+          <div class="stat-card__top">
+            <div class="stat-card__icon stat-card__icon--emerald">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+              </svg>
+            </div>
+            <span class="stat-card__change stat-card__change--up">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
+              +5%
+            </span>
+          </div>
+          <div class="stat-card__value">{{ total_courses|default:"24" }}</div>
+          <div class="stat-card__label">Active Courses</div>
+          <div class="stat-card__sub">3 launching next week</div>
+        </div>
+
+        <div class="stat-card stat-card--sky">
+          <div class="stat-card__top">
+            <div class="stat-card__icon stat-card__icon--sky">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+              </svg>
+            </div>
+            <span class="stat-card__change stat-card__change--up">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
+              +8%
+            </span>
+          </div>
+          <div class="stat-card__value">{{ total_exams|default:"48" }}</div>
+          <div class="stat-card__label">Total Exams</div>
+          <div class="stat-card__sub">8 scheduled this week</div>
+        </div>
+
+        <div class="stat-card stat-card--rose">
+          <div class="stat-card__top">
+            <div class="stat-card__icon stat-card__icon--rose">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+              </svg>
+            </div>
+            <span class="stat-card__change stat-card__change--down">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+              -2%
+            </span>
+          </div>
+          <div class="stat-card__value">{{ avg_score|default:"78%" }}</div>
+          <div class="stat-card__label">Avg. Exam Score</div>
+          <div class="stat-card__sub">Across all subjects</div>
+        </div>
+
+      </div>
+
+      <!-- ── Middle Row: Course Table + Activity ── -->
+      <div class="content-grid">
+
+        <!-- Courses Panel -->
+        <div class="panel">
+          <div class="panel__header">
+            <div>
+              <div class="panel__title">Active Courses</div>
+              <div class="panel__subtitle">Showing {{ courses|length|default:"5" }} of {{ total_courses|default:"24" }} courses</div>
+            </div>
+            <a href="#" class="panel__action">View all →</a>
+          </div>
+
+          <table class="course-table">
+            <thead>
+              <tr>
+                <th>Course</th>
+                <th>Status</th>
+                <th>Students</th>
+                <th>Progress</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for course in courses %}
+              <tr>
+                <td>
+                  <div class="course-name">{{ course.title }}</div>
+                  <div class="course-meta">{{ course.instructor }} · {{ course.lessons }} lessons</div>
+                </td>
+                <td><span class="badge badge--{{ course.status_class }}">{{ course.status }}</span></td>
+                <td>{{ course.students }}</td>
+                <td>
+                  <div class="progress-bar-wrap">
+                    <div class="progress-bar-track">
+                      <div class="progress-bar-fill" style="width:{{ course.progress }}%;"></div>
+                    </div>
+                    <div class="progress-pct">{{ course.progress }}%</div>
+                  </div>
+                </td>
+                <td>
+                  <a href="#" class="btn btn-ghost btn-sm">View</a>
+                </td>
+              </tr>
+              {% empty %}
+              <!-- Sample data for preview when no courses exist yet -->
+              <tr>
+                <td>
+                  <div class="course-name">Python Programming</div>
+                  <div class="course-meta">Dr. Ahmed · 18 lessons</div>
+                </td>
+                <td><span class="badge badge--active">Active</span></td>
+                <td>214</td>
+                <td>
+                  <div class="progress-bar-wrap">
+                    <div class="progress-bar-track">
+                      <div class="progress-bar-fill" style="width:72%;"></div>
+                    </div>
+                    <div class="progress-pct">72%</div>
+                  </div>
+                </td>
+                <td><button class="btn btn-ghost btn-sm">View</button></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="course-name">Data Structures & Algorithms</div>
+                  <div class="course-meta">Prof. Sharma · 24 lessons</div>
+                </td>
+                <td><span class="badge badge--active">Active</span></td>
+                <td>178</td>
+                <td>
+                  <div class="progress-bar-wrap">
+                    <div class="progress-bar-track">
+                      <div class="progress-bar-fill" style="width:55%;"></div>
+                    </div>
+                    <div class="progress-pct">55%</div>
+                  </div>
+                </td>
+                <td><button class="btn btn-ghost btn-sm">View</button></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="course-name">Web Development Bootcamp</div>
+                  <div class="course-meta">Ms. Kapoor · 32 lessons</div>
+                </td>
+                <td><span class="badge badge--pending">Pending</span></td>
+                <td>96</td>
+                <td>
+                  <div class="progress-bar-wrap">
+                    <div class="progress-bar-track">
+                      <div class="progress-bar-fill" style="width:30%;"></div>
+                    </div>
+                    <div class="progress-pct">30%</div>
+                  </div>
+                </td>
+                <td><button class="btn btn-ghost btn-sm">View</button></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="course-name">Database Management</div>
+                  <div class="course-meta">Dr. Singh · 16 lessons</div>
+                </td>
+                <td><span class="badge badge--active">Active</span></td>
+                <td>143</td>
+                <td>
+                  <div class="progress-bar-wrap">
+                    <div class="progress-bar-track">
+                      <div class="progress-bar-fill" style="width:88%;"></div>
+                    </div>
+                    <div class="progress-pct">88%</div>
+                  </div>
+                </td>
+                <td><button class="btn btn-ghost btn-sm">View</button></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="course-name">Machine Learning Basics</div>
+                  <div class="course-meta">Prof. Rao · 28 lessons</div>
+                </td>
+                <td><span class="badge badge--closed">Closed</span></td>
+                <td>312</td>
+                <td>
+                  <div class="progress-bar-wrap">
+                    <div class="progress-bar-track">
+                      <div class="progress-bar-fill" style="width:100%;"></div>
+                    </div>
+                    <div class="progress-pct">100%</div>
+                  </div>
+                </td>
+                <td><button class="btn btn-ghost btn-sm">View</button></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Activity Feed -->
+        <div class="panel">
+          <div class="panel__header">
+            <div>
+              <div class="panel__title">Recent Activity</div>
+              <div class="panel__subtitle">Latest events in your LMS</div>
+            </div>
+          </div>
+
+          <div class="activity-list">
+
+            {% for activity in recent_activities %}
+            <div class="activity-item">
+            <div class="activity-item__icon activity-icon--{{ activity.icon_type }}">
+                {{ activity.icon_svg|safe }}
+            </div>
+              <div class="activity-item__body">
+                <p class="activity-item__text">{{ activity.text|safe }}</p>
+                <p class="activity-item__time">{{ activity.time }}</p>
+              </div>
+            </div>
+            {% empty %}
+            <!-- Sample activity data -->
+            <div class="activity-item">
+              <div class="activity-item__icon" style="background:rgba(52,211,153,0.12);color:var(--emerald-400);">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg>
+              </div>
+              <div class="activity-item__body">
+                <p class="activity-item__text"><strong>Priya Mehta</strong> enrolled in Python Programming</p>
+                <p class="activity-item__time">2 minutes ago</p>
+              </div>
+            </div>
+
+            <div class="activity-item">
+              <div class="activity-item__icon" style="background:rgba(251,191,36,0.12);color:var(--amber-400);">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+              </div>
+              <div class="activity-item__body">
+                <p class="activity-item__text"><strong>Midterm Exam</strong> results published for DSA</p>
+                <p class="activity-item__time">18 minutes ago</p>
+              </div>
+            </div>
+
+            <div class="activity-item">
+              <div class="activity-item__icon" style="background:rgba(56,189,248,0.12);color:var(--sky-400);">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+              </div>
+              <div class="activity-item__body">
+                <p class="activity-item__text">New course <strong>ML Basics</strong> added by Prof. Rao</p>
+                <p class="activity-item__time">1 hour ago</p>
+              </div>
+            </div>
+
+            <div class="activity-item">
+              <div class="activity-item__icon" style="background:rgba(251,113,133,0.12);color:var(--rose-400);">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+              </div>
+              <div class="activity-item__body">
+                <p class="activity-item__text"><strong>3 students</strong> flagged for missed submissions</p>
+                <p class="activity-item__time">3 hours ago</p>
+              </div>
+            </div>
+
+            <div class="activity-item">
+              <div class="activity-item__icon" style="background:rgba(52,211,153,0.12);color:var(--emerald-400);">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </div>
+              <div class="activity-item__body">
+                <p class="activity-item__text"><strong>Web Dev</strong> course materials updated</p>
+                <p class="activity-item__time">Yesterday, 4:30 PM</p>
+              </div>
+            </div>
+            {% endfor %}
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ── Bottom Row: Chart | Upcoming Exams | Top Performers ── -->
+      <div class="content-grid-3">
+
+        <!-- Enrollment Chart -->
+        <div class="panel">
+          <div class="panel__header">
+            <div>
+              <div class="panel__title">Enrollments</div>
+              <div class="panel__subtitle">Last 8 weeks</div>
+            </div>
+            <span class="stat-card__change stat-card__change--up" style="font-size:12px;">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" width="12" height="12"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
+              +18%
+            </span>
+          </div>
+          <div class="mini-chart">
+            <div class="mini-bar" style="height:35%;"></div>
+            <div class="mini-bar" style="height:50%;"></div>
+            <div class="mini-bar" style="height:40%;"></div>
+            <div class="mini-bar" style="height:65%;"></div>
+            <div class="mini-bar" style="height:55%;"></div>
+            <div class="mini-bar" style="height:75%;"></div>
+            <div class="mini-bar active" style="height:90%;"></div>
+            <div class="mini-bar active" style="height:100%;"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-top:12px;font-size:11px;color:var(--text-muted);">
+            <span>May 1</span>
+            <span>Jun 7</span>
+          </div>
+        </div>
+
+        <!-- Upcoming Exams -->
+        <div class="panel">
+          <div class="panel__header">
+            <div class="panel__title">Upcoming Exams</div>
+            <a href="#" class="panel__action">View all →</a>
+          </div>
+          <div class="exam-list">
+            {% for exam in upcoming_exams %}
+            <a href="{% url 'take_exam' exam.id %}" class="exam-item" style="text-decoration: none; color: inherit;">
+              <div class="exam-date">
+                <div class="exam-date__day">{{ exam.day }}</div>
+                <div class="exam-date__mon">{{ exam.month }}</div>
+              </div>
+              <div class="exam-info">
+                <div class="exam-info__name">{{ exam.title }}</div>
+                <div class="exam-info__meta">{{ exam.course }} · {{ exam.duration }}</div>
+              </div>
+              <div class="exam-action">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+              </div>
+            </a>
+            {% empty %}
+            <div class="exam-item">
+              <div class="exam-date"><div class="exam-date__day">09</div><div class="exam-date__mon">Jun</div></div>
+              <div class="exam-info"><div class="exam-info__name">Python Midterm</div><div class="exam-info__meta">Python Programming · 90 min</div></div>
+              <div class="exam-action"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="15" height="15"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></div>
+            </div>
+            <div class="exam-item">
+              <div class="exam-date"><div class="exam-date__day">12</div><div class="exam-date__mon">Jun</div></div>
+              <div class="exam-info"><div class="exam-info__name">DSA Quiz #4</div><div class="exam-info__meta">Data Structures · 45 min</div></div>
+              <div class="exam-action"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="15" height="15"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></div>
+            </div>
+            <div class="exam-item">
+              <div class="exam-date"><div class="exam-date__day">17</div><div class="exam-date__mon">Jun</div></div>
+              <div class="exam-info"><div class="exam-info__name">DB Final Exam</div><div class="exam-info__meta">Database Mgmt · 120 min</div></div>
+              <div class="exam-action"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="15" height="15"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- Top Performers -->
+        <div class="panel">
+          <div class="panel__header">
+            <div class="panel__title">Top Performers</div>
+            <a href="#" class="panel__action">Leaderboard →</a>
+          </div>
+          <div class="performer-list">
+            {% for p in top_performers %}
+            <div class="performer-item">
+              <div class="performer-rank {% if forloop.counter == 1 %}gold{% elif forloop.counter == 2 %}silver{% elif forloop.counter == 3 %}bronze{% endif %}">#{{ forloop.counter }}</div>
+              <div class="user-avatar" style="width:32px;height:32px;font-size:12px;">{{ p.name|first }}</div>
+              <div class="performer-info">
+                <div class="performer-name">{{ p.name }}</div>
+                <div class="performer-course">{{ p.course }}</div>
+              </div>
+              <div class="performer-score">{{ p.score }}%</div>
+            </div>
+            {% empty %}
+            <div class="performer-item">
+              <div class="performer-rank gold">#1</div>
+              <div class="user-avatar" style="width:32px;height:32px;font-size:12px;">A</div>
+              <div class="performer-info"><div class="performer-name">Arjun Patel</div><div class="performer-course">Python Programming</div></div>
+              <div class="performer-score">98%</div>
+            </div>
+            <div class="performer-item">
+              <div class="performer-rank silver">#2</div>
+              <div class="user-avatar" style="width:32px;height:32px;font-size:12px;">R</div>
+              <div class="performer-info"><div class="performer-name">Riya Sharma</div><div class="performer-course">Data Structures</div></div>
+              <div class="performer-score">95%</div>
+            </div>
+            <div class="performer-item">
+              <div class="performer-rank bronze">#3</div>
+              <div class="user-avatar" style="width:32px;height:32px;font-size:12px;">K</div>
+              <div class="performer-info"><div class="performer-name">Kabir Nair</div><div class="performer-course">ML Basics</div></div>
+              <div class="performer-score">93%</div>
+            </div>
+            <div class="performer-item">
+              <div class="performer-rank">#4</div>
+              <div class="user-avatar" style="width:32px;height:32px;font-size:12px;">P</div>
+              <div class="performer-info"><div class="performer-name">Priya Mehta</div><div class="performer-course">Web Development</div></div>
+              <div class="performer-score">91%</div>
+            </div>
+            <div class="performer-item">
+              <div class="performer-rank">#5</div>
+              <div class="user-avatar" style="width:32px;height:32px;font-size:12px;">S</div>
+              <div class="performer-info"><div class="performer-name">Sahil Gupta</div><div class="performer-course">Database Mgmt</div></div>
+              <div class="performer-score">89%</div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script>
+  /* Mobile sidebar toggle */
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('sidebarOverlay').classList.toggle('open');
+  }
+  function closeSidebar() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sidebarOverlay').classList.remove('open');
+  }
+</script>
+
+</body>
+</html>

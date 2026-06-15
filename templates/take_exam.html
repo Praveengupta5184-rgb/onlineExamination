@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ exam.title }} — EduCore LMS</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  <style>
+    .exam-container { max-width: 800px; margin: 40px auto; padding: 20px; }
+    .question-card { background: var(--navy-900); padding: 20px; border-radius: var(--r-md); margin-bottom: 20px; border: 1px solid var(--border); }
+    .choice-label { display: block; padding: 10px; cursor: pointer; border-radius: var(--r-sm); transition: background 0.2s; }
+    .choice-label:hover { background: var(--bg-surface); }
+    #timer { font-size: 24px; font-weight: bold; color: var(--accent); position: sticky; top: 20px; background: var(--navy-950); padding: 10px; border-radius: var(--r-sm); z-index: 10; text-align: center; border: 1px solid var(--accent); margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <div class="exam-container">
+    <div id="timer">Time Remaining: <span id="time-display">00:00</span></div>
+    
+    <h1 class="content__title">{{ exam.title }}</h1>
+    <p class="content__subtitle">{{ exam.course.title }} • {{ questions.count }} Questions</p>
+    <hr style="opacity: 0.1; margin: 20px 0;">
+
+    <form id="exam-form" method="POST">
+      {% csrf_token %}
+      {% for q in questions %}
+        <div class="question-card">
+          <p style="font-weight: 600; margin-bottom: 15px;">Q{{ forloop.counter }}. {{ q.text }}</p>
+          {% for choice in q.choices.all %}
+            <label class="choice-label">
+              <input type="radio" name="question_{{ q.id }}" value="{{ choice.id }}">
+              {{ choice.text }}
+            </label>
+          {% endfor %}
+        </div>
+      {% endfor %}
+      
+      <button type="submit" class="btn btn-primary" style="width: auto; padding: 12px 40px;">Submit Exam</button>
+    </form>
+  </div>
+
+  <script>
+    const duration = {{ exam.duration_minutes }} * 60;
+    let timeLeft = duration;
+    const display = document.getElementById('time-display');
+    const form = document.getElementById('exam-form');
+
+    function updateTimer() {
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+      display.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        alert('Time is up! Submitting your exam.');
+        form.submit();
+      }
+      timeLeft--;
+    }
+
+    const timerInterval = setInterval(updateTimer, 1000);
+    updateTimer();
+  </script>
+</body>
+</html>

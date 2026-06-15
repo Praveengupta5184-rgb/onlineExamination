@@ -1,0 +1,168 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login — EduCore LMS</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+</head>
+<body>
+
+<div class="auth-root">
+
+  <!-- ── Left Decorative Panel ── -->
+  <div class="auth-panel">
+    <div class="auth-panel__shapes">
+      <div class="auth-shape auth-shape--1"></div>
+      <div class="auth-shape auth-shape--2"></div>
+      <div class="auth-shape auth-shape--3"></div>
+    </div>
+
+    <div class="auth-panel__logo">
+      <div class="auth-panel__logo-icon">E</div>
+      <div>
+        <div class="auth-panel__logo-name">EduCore</div>
+        <span class="auth-panel__logo-badge">LMS Platform</span>
+      </div>
+    </div>
+
+    <div class="auth-panel__content">
+      <h1 class="auth-panel__tagline">
+        Empower Learning.<br>
+        <span>Elevate Results.</span>
+      </h1>
+      <p class="auth-panel__sub">
+        A complete Learning Management System for modern educators — create exams, track progress, and deliver world-class learning experiences.
+      </p>
+    </div>
+
+    <div class="auth-panel__stats">
+      <div class="auth-stat">
+        <span class="auth-stat__value">12k+</span>
+        <span class="auth-stat__label">Students</span>
+      </div>
+      <div class="auth-stat">
+        <span class="auth-stat__value">340</span>
+        <span class="auth-stat__label">Courses</span>
+      </div>
+      <div class="auth-stat">
+        <span class="auth-stat__value">98%</span>
+        <span class="auth-stat__label">Satisfaction</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Right Login Form ── -->
+  <div class="auth-form-wrap">
+    <div class="auth-card">
+
+      <div class="auth-card__header">
+        <p class="auth-card__eyebrow">Welcome back</p>
+        <h2 class="auth-card__title">Sign in to your account</h2>
+        <p class="auth-card__subtitle">Don't have an account? <a href="{% url 'register' %}" class="form-link">Create one free</a></p>
+      </div>
+
+      <!-- Django Messages -->
+      {% if messages %}
+        <ul class="messages-list">
+          {% for message in messages %}
+            <li class="message-item {{ message.tags }}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+              </svg>
+              {{ message }}
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      <!-- Login Form -->
+      <form method="POST" action="{% url 'login' %}" novalidate>
+        {% csrf_token %}
+
+        <div class="form-group">
+          <label for="id_email">Email address</label>
+          <div class="input-wrap">
+            <span class="input-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+              </svg>
+            </span>
+            <input
+              type="email"
+              id="id_email"
+              name="email"
+              placeholder="you@example.com"
+              autocomplete="email"
+              required
+              value="{{ request.POST.email|default:'' }}"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="id_password">Password</label>
+          <div class="input-wrap">
+            <span class="input-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+              </svg>
+            </span>
+            <input
+              type="password"
+              id="id_password"
+              name="password"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+              required
+            />
+            <button type="button" class="pw-toggle" onclick="togglePw('id_password', this)" aria-label="Toggle password visibility">
+              <svg id="eye-login" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" width="17" height="17">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-meta">
+          <div class="form-check">
+            <input type="checkbox" id="remember" name="remember" />
+            <label for="remember">Remember me</label>
+          </div>
+          <a href="{% url 'password_reset' %}" class="form-link">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="17" height="17">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
+          </svg>
+          Sign In
+        </button>
+
+      </form>
+
+      <div class="auth-switch">
+        New to EduCore?
+        <a href="{% url 'register' %}">Create a free account</a>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function togglePw(inputId, btn) {
+    const input = document.getElementById(inputId);
+    const isText = input.type === 'text';
+    input.type = isText ? 'password' : 'text';
+    btn.innerHTML = isText
+      ? `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" width="17" height="17"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>`
+      : `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" width="17" height="17"><path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 0-8.268-2.943-9.542-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.477 0 8.268 2.943 9.542 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/></svg>`;
+  }
+</script>
+
+</body>
+</html>
