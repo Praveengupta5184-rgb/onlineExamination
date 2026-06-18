@@ -8,7 +8,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-)n8s630@6s9xi5@_7@_8=^f(7k#&9sa5tkd*wlldo5$7z*a_!h'
 
-DEBUG = False
+# Development friendly default. Change to False in production.
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -107,5 +108,6 @@ MEDIA_ROOT = BASE_DIR / 'media'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/login/'
 
-# Email configuration for Password Reset (Console backend for development)
+# Email configuration for Password Reset (console backend for development)
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = 'no-reply@example.com'

@@ -53,6 +53,44 @@ def login_view(request):
 
 
 def register_view(request):
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name', '').strip()
+        last_name = request.POST.get('last_name', '').strip()
+        email = request.POST.get('email', '').strip().lower()
+        password1 = request.POST.get('password1', '')
+        password2 = request.POST.get('password2', '')
+
+        if not (first_name and last_name and email and password1 and password2):
+            messages.error(request, 'Please fill all required fields.')
+            return render(request, 'register.html')
+
+        if password1 != password2:
+            messages.error(request, 'Passwords do not match.')
+            return render(request, 'register.html')
+
+        if User.objects.filter(email__iexact=email).exists():
+            messages.error(request, 'An account with this email already exists.')
+            return render(request, 'register.html')
+
+        # Use email as username when possible to make authentication simple
+        base_username = email
+        username = base_username
+        counter = 1
+        while User.objects.filter(username=username).exists():
+            username = f"{base_username.split('@')[0]}{counter}"
+            counter += 1
+
+        user = User.objects.create_user(
+            username=username,
+            email=email,
+            password=password1,
+            first_name=first_name,
+            last_name=last_name,
+        )
+        user.save()
+        messages.success(request, 'Account created successfully. You can now sign in.')
+        return redirect('login')
+
     return render(request, 'register.html')
 
 
@@ -169,11 +207,9 @@ def student_dashboard(request):
     
     try:
         now = timezone.now()
+        # Show all published exams to students; template will indicate status (upcoming/open/ended)
         exams = Exam.objects.select_related('course').filter(
             published=True,
-        ).filter(
-            (Q(start_time__lte=now) | Q(start_time__isnull=True)) &
-            (Q(end_time__gte=now) | Q(end_time__isnull=True))
         ).order_by('-created_at')
         student_results = Result.objects.filter(user=request.user).select_related('exam', 'exam__course')
         
