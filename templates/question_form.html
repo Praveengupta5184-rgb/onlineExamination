@@ -1,0 +1,48 @@
+{% load static %}
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Add Question</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="page-header">
+      <h1>Add Question to: {{ exam.title }}</h1>
+      <p>{{ exam.course.title }}</p>
+    </header>
+
+    <section class="panel">
+      <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+          {{ qform.text.label_tag }}
+          {{ qform.text }}
+        </div>
+
+        <h3>Choices</h3>
+        {{ formset.management_form }}
+        <div class="choices-grid">
+          {% for form in formset.forms %}
+            <div class="choice-row">
+              {{ form.text.label_tag }}
+              {{ form.text }}
+              <label style="display:inline-flex; align-items:center; gap:8px; margin-top:8px;">
+                {{ form.is_correct }} {{ form.is_correct.label_tag }}
+              </label>
+            </div>
+          {% endfor %}
+        </div>
+
+        <div style="margin-top:12px;">
+          <button class="btn btn-primary" type="submit">
+            {% if editing %}Update Question{% else %}Save Question{% endif %}
+          </button>
+          <a href="{% url 'exam_detail' exam.id %}" class="btn">Cancel</a>
+        </div>
+      </form>
+    </section>
+  </div>
+</body>
+</html>

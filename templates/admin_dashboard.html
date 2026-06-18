@@ -1,0 +1,323 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard — EduCore LMS</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+</head>
+<body>
+
+<div class="dashboard-root">
+
+  <!-- ────────────────────────────────
+       SIDEBAR
+  ────────────────────────────────── -->
+  <aside class="sidebar">
+
+    <div class="sidebar__logo">
+      <div class="sidebar__logo-icon">E</div>
+      <div>
+        <div class="sidebar__logo-name">EduCore</div>
+        <span class="sidebar__logo-badge">Admin Panel</span>
+      </div>
+    </div>
+
+    <nav class="sidebar__nav">
+
+      <!-- Main -->
+      <div class="nav-section">
+        <p class="nav-section__label">Main</p>
+
+        <a href="{% url 'dashboard_view' %}" class="nav-item active">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+          </svg>
+          Dashboard
+        </a>
+
+        <a href="{% url 'courses' %}" class="nav-item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+          </svg>
+          Courses
+          <span class="nav-badge">{{ total_courses|default:"0" }}</span>
+        </a>
+
+        <a href="{% url 'exams' %}" class="nav-item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+          </svg>
+          Exams
+          <span class="nav-badge">{{ total_exams|default:"0" }}</span>
+        </a>
+
+        <a href="{% url 'results' %}" class="nav-item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+          </svg>
+          Results
+        </a>
+
+        <a href="{% url 'students' %}" class="nav-item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+          Students
+          <span class="nav-badge">{{ total_students|default:"0" }}</span>
+        </a>
+      </div>
+
+      <!-- Management -->
+      <div class="nav-section">
+        <p class="nav-section__label">Management</p>
+
+        <a href="{% url 'schedule' %}" class="nav-item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+          </svg>
+          Schedule
+        </a>
+
+        <a href="{% url 'reports' %}" class="nav-item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+          Reports
+        </a>
+
+        <a href="{% url 'settings' %}" class="nav-item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+          Settings
+        </a>
+      </div>
+
+    </nav>
+
+    <div class="sidebar__footer">
+      <div class="sidebar__user">
+        <div class="user-avatar">
+          {{ request.user.first_name|first|upper }}{{ request.user.last_name|first|upper|default:request.user.username|first|upper }}
+        </div>
+        <div class="sidebar__user-info" style="flex: 1; overflow: hidden;">
+          <div class="sidebar__user-name">{{ request.user.get_full_name|default:request.user.username }}</div>
+          <div class="sidebar__user-role">Administrator</div>
+        </div>
+        <div class="sidebar__user-action">
+          <a href="{% url 'logout_view' %}" title="Logout" style="color: var(--text-muted); transition: color 0.2s;">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="18" height="18">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- Mobile overlay -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+  <!-- ─────────────────────────────────────────
+       MAIN AREA
+  ───────────────────────────────────────── -->
+  <div class="main-area">
+
+    <!-- ── Top Navbar ── -->
+    <header class="topbar">
+      <button class="topbar__hamburger" onclick="toggleSidebar()" aria-label="Menu">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+
+      <div class="topbar__breadcrumb">
+        <span>EduCore</span>
+        <span class="sep">/</span>
+        <span>Admin Dashboard</span>
+      </div>
+
+      <div class="topbar__actions">
+        <button class="topbar__action" onclick="alert('Notifications')">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" width="18" height="18">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- ── Content ── -->
+    <div class="content">
+
+      <div class="content__header">
+        <div>
+          <h1 class="content__title">Good morning, {{ request.user.first_name|default:"Admin" }} 👋</h1>
+          <p class="content__subtitle">Manage courses, exams, and student progress.</p>
+          {% if schema_error %}
+            <div class="alert alert-danger" style="margin-top:16px; padding:12px; border-radius:10px; background:#ffe6e6; color:#9b1c1c; border:1px solid #f5c2c7;">
+              {{ error_message }}
+            </div>
+          {% endif %}
+        </div>
+        <div class="content__actions">
+          <a href="{% url 'course_add' %}" class="btn btn-primary" style="text-decoration: none; margin-right:8px;">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="16" height="16">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+            </svg>
+            Add Course
+          </a>
+          <a href="{% url 'exam_add' %}" class="btn btn-primary" style="text-decoration: none;">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="16" height="16">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+            </svg>
+            Add Exam
+          </a>
+        </div>
+      </div>
+
+      <!-- Stats Section -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-card__icon" style="background: #e0f2fe;">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="24" height="24" style="color: #0284c7;">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+            </svg>
+          </div>
+          <div class="stat-card__content">
+            <p class="stat-card__label">Total Courses</p>
+            <p class="stat-card__value">{{ total_courses|default:"0" }}</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-card__icon" style="background: #f0fdf4;">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="24" height="24" style="color: #16a34a;">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+            </svg>
+          </div>
+          <div class="stat-card__content">
+            <p class="stat-card__label">Total Exams</p>
+            <p class="stat-card__value">{{ total_exams|default:"0" }}</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-card__icon" style="background: #fef3c7;">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="24" height="24" style="color: #f59e0b;">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+          </div>
+          <div class="stat-card__content">
+            <p class="stat-card__label">Total Students</p>
+            <p class="stat-card__value">{{ total_students|default:"0" }}</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-card__icon" style="background: #fce7f3;">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="24" height="24" style="color: #ec4899;">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+            </svg>
+          </div>
+          <div class="stat-card__content">
+            <p class="stat-card__label">Avg Score</p>
+            <p class="stat-card__value">{{ avg_score|default:"0" }}%</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="section">
+        <h2 class="section__title">Quick Actions</h2>
+        <div class="action-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+          <a href="{% url 'courses' %}" class="action-card" style="padding: 20px; border: 1px solid #e5e7eb; border-radius: 10px; text-align: center; text-decoration: none; color: inherit; transition: all 0.2s;">
+            <div style="font-size: 32px; margin-bottom: 10px;">📚</div>
+            <h3 style="margin: 0 0 5px 0; font-size: 14px; font-weight: 600;">Manage Courses</h3>
+            <p style="margin: 0; font-size: 12px; color: #666;">View, add, or edit courses</p>
+          </a>
+          <a href="{% url 'exams' %}" class="action-card" style="padding: 20px; border: 1px solid #e5e7eb; border-radius: 10px; text-align: center; text-decoration: none; color: inherit; transition: all 0.2s;">
+            <div style="font-size: 32px; margin-bottom: 10px;">✏️</div>
+            <h3 style="margin: 0 0 5px 0; font-size: 14px; font-weight: 600;">Create Exams</h3>
+            <p style="margin: 0; font-size: 12px; color: #666;">Design and manage exams</p>
+          </a>
+          <a href="{% url 'students' %}" class="action-card" style="padding: 20px; border: 1px solid #e5e7eb; border-radius: 10px; text-align: center; text-decoration: none; color: inherit; transition: all 0.2s;">
+            <div style="font-size: 32px; margin-bottom: 10px;">👥</div>
+            <h3 style="margin: 0 0 5px 0; font-size: 14px; font-weight: 600;">View Students</h3>
+            <p style="margin: 0; font-size: 12px; color: #666;">See all enrolled students</p>
+          </a>
+          <a href="{% url 'results' %}" class="action-card" style="padding: 20px; border: 1px solid #e5e7eb; border-radius: 10px; text-align: center; text-decoration: none; color: inherit; transition: all 0.2s;">
+            <div style="font-size: 32px; margin-bottom: 10px;">📊</div>
+            <h3 style="margin: 0 0 5px 0; font-size: 14px; font-weight: 600;">View Results</h3>
+            <p style="margin: 0; font-size: 12px; color: #666;">Check exam results & scores</p>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<style>
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 30px;
+  }
+  
+  .stat-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+  }
+  
+  .stat-card__icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .stat-card__content {
+    flex: 1;
+  }
+  
+  .stat-card__label {
+    margin: 0;
+    font-size: 12px;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .stat-card__value {
+    margin: 5px 0 0 0;
+    font-size: 24px;
+    font-weight: 700;
+  }
+</style>
+
+<script>
+  function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    sidebar.style.display = sidebar.style.display === 'none' ? 'block' : 'none';
+  }
+
+  function closeSidebar() {
+    document.querySelector('.sidebar').style.display = 'none';
+  }
+</script>
+
+</body>
+</html>

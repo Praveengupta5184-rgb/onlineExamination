@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exams — EduCore LMS</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+</head>
+<body>
+  <div class="page-shell">
+    <header class="page-header">
+      <h1>Exams</h1>
+      <p>View active and upcoming exams.</p>
+    </header>
+
+    <section class="panel">
+      <div class="panel__header">
+        <div>
+          <div class="panel__title">Exams</div>
+          <div class="panel__subtitle">Total exams: {{ total_exams }}</div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="course-table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Course</th>
+              <th>Duration</th>
+              <th>Created</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for exam in exams %}
+            <tr>
+              <td>
+                {{ exam.title }}
+                {% if request.user.is_staff %}
+                  <div style="margin-top:6px; display:flex; gap:8px; flex-wrap:wrap;">
+                    <a href="{% url 'exam_detail' exam.id %}" class="btn btn-sm">View Questions</a>
+                    <a href="{% url 'add_question' exam.id %}" class="btn btn-sm">Add Question</a>
+                  </div>
+                {% endif %}
+              </td>
+              <td>{{ exam.course.title }}</td>
+              <td>{{ exam.duration_minutes }} min</td>
+              <td>{{ exam.created_at|date:'M d, Y' }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="4">No exams found.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

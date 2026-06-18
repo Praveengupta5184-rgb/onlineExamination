@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-card">
+  <h2>Create Exam</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div style="margin-top: 12px;">
+      <label>Start time (optional)</label>
+      {{ form.start_time }}
+    </div>
+    <div style="margin-top: 12px;">
+      <label>End time (optional)</label>
+      {{ form.end_time }}
+    </div>
+    <button class="btn btn-primary" type="submit">Create Exam</button>
+  </form>
+</div>
+{% endblock %}

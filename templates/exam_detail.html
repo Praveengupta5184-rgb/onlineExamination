@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ exam.title }} — Questions</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+</head>
+<body>
+  <div class="page-shell">
+    <header class="page-header">
+      <h1>{{ exam.title }}</h1>
+      <p>{{ exam.course.title }}</p>
+      <div style="margin-top: 16px; display:flex; gap:10px; flex-wrap:wrap;">
+        <a href="{% url 'add_question' exam.id %}" class="btn btn-primary">Add Question</a>
+        <a href="{% url 'exams' %}" class="btn">Back to Exams</a>
+      </div>
+    </header>
+
+    <section class="panel">
+      {% if questions %}
+        <div class="question-list">
+          {% for question in questions %}
+            <div class="question-card">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px;">
+                <div>
+                  <strong>Q{{ forloop.counter }}.</strong> {{ question.text }}
+                </div>
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                  <a href="{% url 'edit_question' question.id %}" class="btn btn-sm">Edit</a>
+                  <a href="{% url 'delete_question' question.id %}" class="btn btn-sm btn-danger">Delete</a>
+                </div>
+              </div>
+              <ul style="margin-top: 12px; padding-left: 18px;">
+                {% for choice in question.choices.all %}
+                  <li style="margin-bottom: 6px;">{{ choice.text }} {% if choice.is_correct %}<strong>(Correct)</strong>{% endif %}</li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p>No questions have been added to this exam yet.</p>
+      {% endif %}
+    </section>
+  </div>
+</body>
+</html>

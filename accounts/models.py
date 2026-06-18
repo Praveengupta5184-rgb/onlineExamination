@@ -10,6 +10,8 @@ class Course(models.Model):
     lessons    = models.IntegerField(default=0)
     completed  = models.IntegerField(default=0)  # completed lessons
     status     = models.CharField(max_length=20, default='active')
+    content    = models.TextField(blank=True, null=True)
+    pdf        = models.FileField(upload_to='course_pdfs/', blank=True, null=True)
 
     @property
     def progress(self):
@@ -26,6 +28,9 @@ class Exam(models.Model):
     course           = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='exams')
     title            = models.CharField(max_length=200)
     duration_minutes = models.IntegerField(default=60)
+    start_time       = models.DateTimeField(null=True, blank=True)
+    end_time         = models.DateTimeField(null=True, blank=True)
+    published        = models.BooleanField(default=True)
     created_at       = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

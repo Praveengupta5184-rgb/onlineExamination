@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ course.title }} — Course Details</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+</head>
+<body>
+  <div class="page-shell">
+    <header class="page-header">
+      <h1>{{ course.title }}</h1>
+      <p>Instructor: {{ course.instructor }}</p>
+      <p>Lessons: {{ course.lessons }} | Status: {{ course.status|capfirst }}</p>
+      <div style="margin-top: 16px; display:flex; gap:10px;">
+        {% if course.pdf %}
+          <a href="{{ course.pdf.url }}" class="btn btn-primary" target="_blank">Download PDF</a>
+        {% endif %}
+        <a href="{% url 'course_edit' course.id %}" class="btn">Edit Course</a>
+        <a href="{% url 'courses' %}" class="btn">Back to Courses</a>
+      </div>
+    </header>
+
+    <section class="panel" style="margin-top:20px;">
+      <h2>Course Content</h2>
+      {% if course.content %}
+        <div style="white-space: pre-wrap; margin-top: 12px; line-height: 1.6; color: #333;">
+          {{ course.content }}
+        </div>
+      {% else %}
+        <p style="color: #666;">Course content is not available yet.</p>
+      {% endif %}
+    </section>
+  </div>
+</body>
+</html>
